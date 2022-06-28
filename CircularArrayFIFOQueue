@@ -1,0 +1,129 @@
+package datastructures.worklists;
+
+import cse332.exceptions.NotYetImplementedException;
+import cse332.interfaces.worklists.FixedSizeFIFOWorkList;
+
+import java.util.NoSuchElementException;
+
+/**
+ * See cse332/interfaces/worklists/FixedSizeFIFOWorkList.java
+ * for method specifications.
+ */
+public class CircularArrayFIFOQueue<E> extends FixedSizeFIFOWorkList<E> {
+    E[] arr;
+    int front;
+    int back;
+    int counter;
+
+    @SuppressWarnings("unchecked")
+    public CircularArrayFIFOQueue(int capacity) {
+        super(capacity);
+        counter = 0;
+        front = 0;
+        back = 0;
+
+        arr = (E[])new Comparable[capacity];
+    }
+
+    @Override
+    public void add(E work) {
+        if(!isFull()) {
+            arr[back] = work;
+            back = (back+1) % arr.length;
+        } else {
+            throw new IllegalStateException();
+        }
+        counter++;
+    }
+
+    @Override
+    public E peek() {
+        if(!hasWork()) {
+            throw new NoSuchElementException();
+        } else {
+            return arr[front];
+        }
+    }
+
+    @Override
+    public E peek(int i) {
+        return arr[(front + boundCheck(i)) % arr.length];
+    }
+
+    @Override
+    public E next() {
+        E value;
+        if(!hasWork()) {
+            throw new NoSuchElementException();
+        }
+
+        value = arr[front];
+        arr[front] = null;
+        front = (front+1) % arr.length;
+        counter--;
+
+        return value;
+    }
+
+    @Override
+    public void update(int i, E value) {
+        arr[boundCheck(i)] = value;
+    }
+
+    private int boundCheck(int i) {
+        if(i >= arr.length) {
+            throw new IndexOutOfBoundsException();
+        } else if (!hasWork()) {
+            throw new NoSuchElementException();
+        } else {
+            return i;
+        }
+    }
+
+    @Override
+    public int size() {
+        return counter;
+    }
+
+    @Override
+    public void clear() {
+        counter = 0;
+        front = 0;
+        back = front-1;
+        arr[front] = null;
+    }
+
+    public boolean hasWork() {
+        return arr[front] != null;
+    }
+
+    @Override
+    public int compareTo(FixedSizeFIFOWorkList<E> other) {
+        // You will implement this method in project 2. Leave this method unchanged for project 1.
+        throw new NotYetImplementedException();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean equals(Object obj) {
+        // You will finish implementing this method in project 2. Leave this method unchanged for project 1.
+        if (this == obj) {
+            return true;
+        } else if (!(obj instanceof FixedSizeFIFOWorkList<?>)) {
+            return false;
+        } else {
+            // Uncomment the line below for p2 when you implement equals
+            // FixedSizeFIFOWorkList<E> other = (FixedSizeFIFOWorkList<E>) obj;
+
+            // Your code goes here
+
+            throw new NotYetImplementedException();
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        // You will implement this method in project 2. Leave this method unchanged for project 1.
+        throw new NotYetImplementedException();
+    }
+}
