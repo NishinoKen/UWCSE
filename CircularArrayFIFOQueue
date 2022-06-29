@@ -38,11 +38,7 @@ public class CircularArrayFIFOQueue<E> extends FixedSizeFIFOWorkList<E> {
 
     @Override
     public E peek() {
-        if(!hasWork()) {
-            throw new NoSuchElementException();
-        } else {
-            return arr[front];
-        }
+        return peek(0);
     }
 
     @Override
@@ -89,8 +85,9 @@ public class CircularArrayFIFOQueue<E> extends FixedSizeFIFOWorkList<E> {
     public void clear() {
         counter = 0;
         front = 0;
-        back = front-1;
-        arr[front] = null;
+        back = 0;
+
+        arr = (E[])new Comparable[this.capacity()];
     }
 
     public boolean hasWork() {
